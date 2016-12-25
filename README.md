@@ -12,3 +12,10 @@ This repository contains scripts to parse, convert and create lego parts lists.
 1. Save the wanted_list.xlsx file as a csv file
 1. Place the csv file into the data directory
 1. Run the python script mismatchedparts.py in the data directory
+
+### Wanted list
+1. Save the wanted_list.xlsx file as a csv file
+1. Place the csv file into the data directory
+1. Run the python script wantedlist.py in the data directory
+
+
