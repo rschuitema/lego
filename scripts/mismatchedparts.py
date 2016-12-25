@@ -1,15 +1,24 @@
 import csv
+import argparse
+
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('refList', help='The reference list to find the mismatches in')
+parser.add_argument('matchList', help='The list to be matched with the reference list')
+
+args = parser.parse_args()
 
 bricklink_partlist = []
 wanted_partlist = []
 
-with open("bricklink_parts.txt", encoding="utf8") as f:
+with open(args.refList, encoding="utf8") as f:
 	reader = csv.reader(f, delimiter='\t')
 	for row in reader:
 		bricklink_partlist.append(row[2])
 		
 		
-with open("wanted_parts.csv") as f:
+with open(args.matchList) as f:
 	reader = csv.reader(f, delimiter=',')
 	for row in reader:
 		wanted_partlist.append(row[2])
