@@ -6,20 +6,33 @@ import re
 def parseOptions():
 	parser = argparse.ArgumentParser()
 
-	parser.add_argument('refList', help='The reference list to find the mismatches in')
+	parser.add_argument('partList', help='The reference part list to find the mismatches in')
+	parser.add_argument('minifigList', help='The reference minigif list to find the mismatches in')
 	parser.add_argument('matchList', help='The list to be matched with the reference list')
 
 	return parser.parse_args()
 
 	
 
-def load_reference_list(reference):
+def load_reference_list(parts, minifigs):
 	ref_list = []
-	with open(reference, encoding="utf8") as f:
+	
+	# first load the parts
+	with open(parts, encoding="utf8") as f:
 		reader = csv.reader(f, delimiter='\t')
 		next(reader, None)  # skip the headers
 		for row in reader:
-			ref_list.append(row[2].lstrip())
+			s = re.sub('[^0-9a-zA-Z]+', '', row[2])
+			ref_list.append(s)
+			
+	# second load the minifigs
+	with open(minifigs, encoding="utf8") as f:
+		reader = csv.reader(f, delimiter='\t')
+		next(reader, None)  # skip the headers
+		for row in reader:
+			s = re.sub('[^0-9a-zA-Z]+', '', row[2])
+			ref_list.append(s)
+			
 	return ref_list
 
 def load_match_list(matcher):
@@ -56,7 +69,7 @@ def main():
 	args = parseOptions()
 	bricklink_list = []
 	wanted_list = []
-	bricklink_list = load_reference_list(args.refList)
+	bricklink_list = load_reference_list(args.partList, args.minifigList)
 	wanted_list = load_match_list(args.matchList)
 	missing_list = determine_mismatch(bricklink_list, wanted_list)
 	print_mismatch_list(missing_list)
