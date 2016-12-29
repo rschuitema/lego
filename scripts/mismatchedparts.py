@@ -54,7 +54,7 @@ def determine_mismatch(ref_list, match_list):
 			found_list.append(part)
 		else:
 			missing_list.append(part)
-	return missing_list
+	return missing_list, found_list
 
 def print_mismatch_list(missing_list):
 	print ("------------")
@@ -65,14 +65,25 @@ def print_mismatch_list(missing_list):
 		print (part)
 	print ("------------")
 
+def print_found_list(found_list):
+	print ("------------")
+	print (" nr items found = %d" % (len(found_list)))
+	print ("------------")
+	print ("Items that are found in wanted list AND in bricklink list:")
+	for part in found_list:
+		print (part)
+	print ("------------")
+
+
 def main():
 	args = parseOptions()
 	bricklink_list = []
 	wanted_list = []
 	bricklink_list = load_reference_list(args.partList, args.minifigList)
 	wanted_list = load_match_list(args.matchList)
-	missing_list = determine_mismatch(bricklink_list, wanted_list)
+	missing_list, found_list = determine_mismatch(bricklink_list, wanted_list)
 	print_mismatch_list(missing_list)
+	print_found_list(found_list)
 	
 if __name__ == "__main__":
     main()
