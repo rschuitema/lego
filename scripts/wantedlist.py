@@ -1,3 +1,5 @@
+import argparse
+import re
 import os.path
 from collections import OrderedDict
 
@@ -8,30 +10,41 @@ lego_parts_separator = ','
 bricklink_wishlist_filename = "bricklink.xml"
 website_filename = "index.html"
 
-def load_lego_colors ():
-    input_file = open (lego_colors_filename, "r") 
+def parseOptions():
+	parser = argparse.ArgumentParser()
+
+	parser.add_argument('legoColors', help='The list of lego colors')
+	parser.add_argument('wantedList', help='The list of wanted lego parts')
+	parser.add_argument("--output", help="Type of output", choices=["bricklink-xml", "html"], default="html")
+
+	return parser.parse_args()
+
+
+def load_lego_colors (legoColors):
+    input_file = open (legoColors, "r") 
     input_file.readline ()
     input_file.readline ()
 
     lego_colors = {}
     for line in input_file.readlines ():
         cols = line.split (lego_colors_separator)
-        color_id = cols [0].strip ()
-        color_name = cols [1].lower ().strip ()
+        color_id = re.sub('[^0-9a-zA-Z]+', '', cols[0])
+        color_name = re.sub('[^0-9a-zA-Z]+', '', cols[1].lower())
         lego_colors [color_name] = color_id
 
     return lego_colors
 
-def load_lego_parts ():
-    input_file = open (lego_parts_filename, "r") 
+def load_lego_parts (legoParts):
+    input_file = open (legoParts, "r") 
     input_file.readline ()
 
     lego_parts = {}
     key_list = []
     for line in input_file.readlines ():
         cols = line.split (lego_parts_separator)
-        part_id = cols [2].strip ()
-        part_color = cols [3].lower ().strip ()
+		#s = re.sub('[^0-9a-zA-Z]+', '', row[2])
+        part_id = re.sub('[^0-9a-zA-Z]+', '', cols[2])
+        part_color = re.sub('[^0-9a-zA-Z]+', '', cols[3].lower())
         part_count = int (cols [1].strip ())
         set_id = cols [0].strip ()
         key = (part_id, part_color)
@@ -125,8 +138,14 @@ def generate_website (lego_colors, lego_parts):
     output_file.close ()
 
 
-lego_colors = load_lego_colors ()
-lego_parts = load_lego_parts ()
 
-generate_bricklink_wishlist (lego_colors, lego_parts)
-generate_website (lego_colors, lego_parts)
+def main():
+	args = parseOptions()
+	lego_colors = load_lego_colors (args.legoColors)
+	lego_parts = load_lego_parts (args.wantedList)
+
+	generate_bricklink_wishlist (lego_colors, lego_parts)
+	generate_website (lego_colors, lego_parts)
+	
+if __name__ == "__main__":
+    main()
