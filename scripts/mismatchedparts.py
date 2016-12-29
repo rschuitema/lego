@@ -1,5 +1,6 @@
 import csv
 import argparse
+import re
 
 
 def parseOptions():
@@ -16,16 +17,19 @@ def load_reference_list(reference):
 	ref_list = []
 	with open(reference, encoding="utf8") as f:
 		reader = csv.reader(f, delimiter='\t')
+		next(reader, None)  # skip the headers
 		for row in reader:
-			ref_list.append(row[2])
+			ref_list.append(row[2].lstrip())
 	return ref_list
 
 def load_match_list(matcher):
 	match_list = []
 	with open(matcher) as f:
 		reader = csv.reader(f, delimiter=',')
+		next(reader, None)  # skip the headers
 		for row in reader:
-			match_list.append(row[2])
+			s = re.sub('[^0-9a-zA-Z]+', '', row[2])
+			match_list.append(s)
 	return match_list
 
 	
@@ -43,7 +47,7 @@ def print_mismatch_list(missing_list):
 	print ("------------")
 	print (" nr items missing = %d" % (len(missing_list)))
 	print ("------------")
-	print ("Items that are in wanted list but not in bricklin list:")
+	print ("Items that are in wanted list but not in bricklink list:")
 	for part in missing_list:
 		print (part)
 	print ("------------")
