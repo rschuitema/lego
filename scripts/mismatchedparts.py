@@ -74,7 +74,13 @@ def print_found_list(found_list):
 		print (part)
 	print ("------------")
 
-
+def save_mismatch_list(missing_list):
+	# second load the minifigs
+	with open("missing_parts.csv", 'w', encoding="utf8") as f:
+		for part in missing_list:
+			f.write(part)
+			f.write(",\n")
+			
 def main():
 	args = parseOptions()
 	bricklink_list = []
@@ -83,7 +89,7 @@ def main():
 	wanted_list = load_match_list(args.matchList)
 	missing_list, found_list = determine_mismatch(bricklink_list, wanted_list)
 	print_mismatch_list(missing_list)
-	print_found_list(found_list)
+	save_mismatch_list(missing_list)
 	
 if __name__ == "__main__":
     main()
