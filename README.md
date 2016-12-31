@@ -19,4 +19,4 @@ This script creates an xml file of lego parts which can be uploaded to the site 
 1.  Click on the `verify` button 
 1.  Click on the `add` button
 
-
+The option `--sep` lets you specify the separator chararter.
