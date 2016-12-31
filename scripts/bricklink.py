@@ -120,12 +120,9 @@ def write_xml(filename, part_list, color_list):
 		inventory.append(item)
 	
 	xmlstr = minidom.parseString(xml.tostring(inventory)).toprettyxml(indent="  ")
-	with open("test.xml", "w") as f:
+	with open(filename, "w") as f:
 		f.write(xmlstr)
 	
-#	tree = xml.ElementTree(inventory)
-#	tree.write("test.xml")
-
 				
 def main():
 	args = parseOptions()
@@ -136,7 +133,7 @@ def main():
 	colors = load_colors(args.colorList)
 	load_parts(args.partList, args.separatorChar, part_list)
 	
-	write_xml("output.xml", part_list, colors)
+	write_xml("bricklink.xml", part_list, colors)
 	
 	
 	print (len(part_list))
