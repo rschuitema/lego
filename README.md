@@ -8,6 +8,7 @@ the excel list into the xml file so that it can be uploaded to Bricklink.
 This repository contains scripts to parse, convert and create lego parts lists.
 
 ## Usage
+
 ### bricklink.py
 This script creates an xml file of lego parts which can be uploaded to the site [bricklink.com](https://www.bricklink.com). It takes a list of lego colors and a CSV file as input. It will create the file bricklink.xml.
 1. Save the wanted_list.xlsx file as a csv file
