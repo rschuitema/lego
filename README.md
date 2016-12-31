@@ -8,14 +8,14 @@ the excel list into the xml file so that it can be uploaded to Bricklink.
 This repository contains scripts to parse, convert and create lego parts lists.
 
 ##Usage
-### Mismatch script
+### mismatchedparts.py
 1. Save the wanted_list.xlsx file as a csv file
-1. Place the csv file into the data directory
-1. Run the python script mismatchedparts.py in the data directory: "mismatchedparts refList wantedList"
+1.Run the python script mismatchedparts.py with the following command
+` python mismatchedparts.py refList wantedList`
 
-### Wanted list
+### bricklink.py
 1. Save the wanted_list.xlsx file as a csv file
-1. Place the csv file into the data directory
-1. Run the python script wantedlist.py in the data directory
+1. Run the python script bricklink.py with the following command
+`python bricklink.py --sep ; lego_colors.tsf wanted_list.csv`
 
 
